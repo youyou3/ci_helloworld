@@ -181,27 +181,7 @@ matrix:
   #
   # Coverity Scan
   #
-  - os: linux
-    env:
-      - TEST="Coverity Scan"
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - gcc-6
-          - g++-6
-      coverity_scan:
-        project:
-          name: "ainfosec/ci_helloworld"
-          description: "A simple example of how to setup a complete CI environment for C and C++"
-        notification_email: rianquinn@gmail.com
-        build_command_prepend: "cmake -DCMAKE_CXX_COMPILER=g++-6 .."
-        build_command: "make"
-        branch_pattern: master
-    script:
-      - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
-
+ 
   #
   # Codecov
   #
@@ -225,30 +205,7 @@ matrix:
   #
   # Coveralls
   #
-  - os: linux
-    env:
-      - TEST="Coveralls"
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - gcc-6
-          - g++-6
-    script:
-      - pip install --upgrade --user git+git://github.com/eddyxu/cpp-coveralls.git
-      - cmake -DENABLE_COVERAGE=ON -DCMAKE_CXX_COMPILER="g++-6" ..
-      - make
-      - make test
-      - cd ..
-      - |
-        coveralls --build-root build --gcov-options '\-lp' \
-          -e build/external \
-          -e build/include \
-          -e build/CMakeFiles/3.8.0 \
-          -e build/CMakeFiles/feature_tests.c \
-          -e build/CMakeFiles/feature_tests.cxx
-
+  
   #
   # Google Address Sanitizer
   #
